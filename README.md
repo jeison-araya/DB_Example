@@ -1,8 +1,4 @@
-﻿
-# Previa
-- Link de descarga
 # Agenda para el taller.
-
 ## Introducción a las Bases de datos
 - Historia
 ## Conceptos de Bases de datos
