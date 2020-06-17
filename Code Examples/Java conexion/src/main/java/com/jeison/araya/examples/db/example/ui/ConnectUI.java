@@ -103,13 +103,14 @@ public class ConnectUI {
             ResultSet resultSet;
             try{
                 // Prepare statement...
-                preparedStatement = connection.prepareStatement("select * from producto");
+                preparedStatement = connection.prepareStatement("select nombre from producto");
                 // Execute statement...
                 resultSet = preparedStatement.executeQuery();
                 String values = "";
                 while(resultSet.next()){
-                    values += "Nombre: \t" + resultSet.getString("nombre") +"\t\t"
-                            + "Precio: \t" + resultSet.getString("precio") + "\n";
+                    values += "Nombre: \t" + resultSet.getString("nombre") +"\n";
+//                    values += "Nombre: \t" + resultSet.getString("nombre") +"\t\t"
+//                            + "Precio: \t" + resultSet.getString("precio") + "\n";
                 }
                 System.out.println(values);
                 confirmationAlert.setContentText(values);
