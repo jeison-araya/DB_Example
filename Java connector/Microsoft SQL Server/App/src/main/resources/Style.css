@@ -1,0 +1,104 @@
+.root{
+    -fx-background-color: #009688;
+}
+.button{
+    -fx-background-color: whitesmoke;
+    -fx-animated: true;
+    -fx-text-fill: rgba(45,51,55,0.98);
+    -fx-min-height: 30;
+    -fx-min-width: 65;
+}
+.combo-box{
+    -fx-background-color: whitesmoke;
+    -fx-font-size: 12px;
+}
+/* Set style of cells */
+.table-row-cell{
+    -fx-font-size: 13px;
+    -fx-cell-size: 25px;
+    -fx-font-family: Arial;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+/* Set style of column headers */
+.table-view .column-header{
+    -fx-font-size: 15px;
+    -fx-font-family: Arial;
+    -fx-text-fill: #03A9F4;
+    -fx-text-alignment: center;
+}
+.list-cell{
+    -fx-font-size: 13px;
+    -fx-cell-size: 25px;
+    -fx-text-alignment: center;
+    -fx-prompt-text-fill: rgba(255,143,133,0.98) ;
+}
+/* Set style of column headers */
+.table-view-column-buttons{
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+
+}
+
+.table-row-cell:empty {
+    -fx-background-color: white;
+    -fx-border-color: white;
+}
+.table-row-cell .table-cell{
+    -fx-border-width: 0.25px;
+    -fx-border-color: transparent gray gray transparent;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+.table-row-cell:empty .table-cell{
+    -fx-border-width: 0px;
+}
+
+.table-buttons{
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+}
+/*pane*/
+.show-pane {
+    -fx-vgap: 25px;
+    -fx-alignment: top-left;
+    /* top, right, button, left */
+    -fx-padding: 75px, 100px, 100px, 100px;
+    -fx-row-valignment: center;
+    -fx-hgap: 15px;
+}
+
+.default-grid-pane{
+    -fx-vgap: 20px;
+    -fx-hgap: 20px;
+    -fx-alignment: top-left;
+    /* top, right, button, left */
+    -fx-padding: 100px, 100px, 100px, 100px;
+
+}
+.default-v-box{
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    /* top, right, button, left */
+    -fx-padding: 25px, 25px, 25px, 25px;
+}
+.button-item-title-pane{
+    -fx-background-color: whitesmoke;
+    -fx-border-color: gray;
+    -fx-border-width: 1px;
+    -fx-animated: true;
+    -fx-text-fill: gray;
+    -fx-alignment: center;
+    -fx-min-height: 30;
+    -fx-min-width: 65;
+}
+.button-item-title-pane-entered{
+    -fx-background-color: snow;
+    -fx-border-color: gray;
+    -fx-border-width: 1px;
+    -fx-animated: true;
+    -fx-text-fill: gray;
+    -fx-alignment: center;
+    -fx-min-height: 30;
+    -fx-min-width: 65;
+}

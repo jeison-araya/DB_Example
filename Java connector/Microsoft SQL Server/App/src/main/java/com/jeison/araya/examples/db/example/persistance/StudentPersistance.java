@@ -44,12 +44,12 @@ public class StudentPersistance implements Persistance<Student, String> {
             throw new PersistanceException("Error con la conexión");
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("insert into students (institutionalId, name, phone) values (?,?,?)");
+                    connection.prepareStatement("insert into studentsU (institutionalId, name, phone) values (?,?,?)");
             statement.setString(1, student.getInstitutionalId());
             statement.setString(2, student.getName());
             statement.setString(3, student.getPhone());
             statement.executeUpdate();
-            System.out.println("Statement excecuted: " + "insert into students (institutionalId, name, phone) values ("
+            System.out.println("Statement excecuted: " + "insert into studentsU (institutionalId, name, phone) values ("
                     + student.getInstitutionalId() +", "
                     + student.getName() + ", "
                     + student.getPhone() +")");
@@ -65,7 +65,7 @@ public class StudentPersistance implements Persistance<Student, String> {
         List<Student> list = new ArrayList<>();
         ResultSet resultSet;
         try {
-            PreparedStatement statement = connection.prepareStatement("select * from students where "
+            PreparedStatement statement = connection.prepareStatement("select * from studentsU where "
                     + "institutionalId like ? or "
                     + "name like ? or "
                     + "phone like ?"
@@ -98,7 +98,7 @@ public class StudentPersistance implements Persistance<Student, String> {
         List<Student> list = new ArrayList<>();
         ResultSet resultSet;
         try {
-            resultSet = execute("select * from students");
+            resultSet = execute("select * from studentsU");
 
             // Read all rows
             while (resultSet.next()) {
@@ -124,13 +124,13 @@ public class StudentPersistance implements Persistance<Student, String> {
             throw new PersistanceException("Error con la conexión");
         try {
             PreparedStatement statement =
-                    connection.prepareStatement("update students set institutionalId=?, name=?, phone=? where id=?");
+                    connection.prepareStatement("update studentsU set institutionalId=?, name=?, phone=? where id=?");
             statement.setString(1, student.getInstitutionalId());
             statement.setString(2, student.getName());
             statement.setString(3, student.getPhone());
             statement.setInt(4, student.getId());
             statement.executeUpdate();
-            System.out.println("Statement excecuted: " + "update students set institutionalId = "
+            System.out.println("Statement excecuted: " + "update studentsU set institutionalId = "
                     + student.getInstitutionalId() +", name= "
                     + student.getName() + ", phone= "
                     + student.getPhone() + "where id="
@@ -147,12 +147,12 @@ public class StudentPersistance implements Persistance<Student, String> {
         try {
             // Prepare statement
             PreparedStatement statement =
-                    connection.prepareStatement("delete from students where id=?");
+                    connection.prepareStatement("delete from studentsU where id=?");
             statement.setInt(1, student.getId());
             // Execution
             statement.executeUpdate();
             // Log
-            System.out.println("delete from students where id= "
+            System.out.println("delete from studentsU where id= "
                     + student.getId() +")");
         } catch (SQLException ex) {
             throw new PersistanceException(ex.getMessage());
