@@ -11,7 +11,8 @@
 
 > ## ¿Cómo utilizar Microsoft SQL Server Management Studio? 
 > - ¿Qué es SQL Server?
-> - Establecer conexión con una Base de datos.
+> - Establecer conexión con SQL Server. 
+> - Crear una Base de datos.
 > - Acceder a la Base de datos.
 > - Comandos básicos.
 
