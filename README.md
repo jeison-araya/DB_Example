@@ -5,9 +5,19 @@
 
 > ## Conceptos de Bases de datos
 > - Definición
+> - Organización
+> - Modelos
+> - Bases de datos relacionales
+  > - Definición
+  > - Formación
+  > - Registros, campos y archivos
+  > - Relciones entre tablas
+  > - Tipos de relaciones
 
 > ## Lengujes de consulta para bases de datos
+> - Tipos
 > - Definición
+> - Descripción
 
 > ## ¿Cómo utilizar Microsoft SQL Server Management Studio? 
 > - ¿Qué es SQL Server?
