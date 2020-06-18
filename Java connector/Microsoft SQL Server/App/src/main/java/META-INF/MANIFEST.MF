@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: com.jeison.araya.examples.db.example.ui.App
+

@@ -5,9 +5,6 @@ import com.jeison.araya.examples.db.example.logic.StudentService;
 import com.jeison.araya.examples.db.example.logic.StudentServiceException;
 import com.jeison.araya.examples.db.example.logic.StudentServiceImplementation;
 import com.jeison.araya.examples.db.example.util.BuilderFX;
-import com.jeison.araya.examples.db.example.util.ConnectionDB;
-import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -15,9 +12,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,18 +22,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
 
-import java.io.File;
-import java.net.Socket;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import static com.jeison.araya.examples.db.example.util.BuilderFX.setButtonEffect;
 import static com.jeison.araya.examples.db.example.util.UIConstants.*;
@@ -117,6 +102,7 @@ public class ConnectUI {
         searchTextField = BuilderFX.buildTextInput2("Mostrar", pane, 1, 1);
         // Row 2
         tableView = buildTableView(pane, 0, 2, 2, 1);
+        tableView.setEditable(true);
         institutionalIdColumn = buildTableColumn("Carné", "institutionalId", tableView);
         nameColumn = buildTableColumn("Nombre", "name", tableView);
         phoneColumn = buildTableColumn("Teléfono", "phone", tableView);
@@ -135,7 +121,6 @@ public class ConnectUI {
      */
     public static TableView buildTableView(GridPane pane, int column, int row, int numColumns, int numRows) {
         TableView<Student> tableView = new TableView<>();
-        tableView.setEditable(true);
         pane.add(tableView, column, row, numColumns, numRows);
         return tableView;
     }
@@ -152,7 +137,7 @@ public class ConnectUI {
         TableColumn tableColumn = new TableColumn(text);
         tableColumn.setId(property);
         tableColumn.setCellValueFactory(new PropertyValueFactory(property));
-
+        setEditableColumnTextField(tableColumn);
         tableView.getColumns().add(tableColumn);
         return tableColumn;
     }
@@ -192,8 +177,8 @@ public class ConnectUI {
         pane.getColumnConstraints().addAll(columnConstraints, columnConstraints2);
         // Columns
         // InstitutionalID Column
-        institutionalIdColumn.setMinWidth(50);
-        institutionalIdColumn.setMaxWidth(75);
+        institutionalIdColumn.setMinWidth(65);
+        institutionalIdColumn.setMaxWidth(80);
         // Catalog Column
         nameColumn.setMinWidth(75);
         deleteColumn.getStyleClass().add("table-view-column-buttons");
@@ -245,7 +230,7 @@ public class ConnectUI {
     private void fillTable(List<Student> students) {
         try {
             ObservableList<Student> list = FXCollections.observableList(students);
-            tableView.getItems().addAll(list);
+            tableView.getItems().setAll(list);
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -301,6 +286,13 @@ public class ConnectUI {
     }
 
     private void addHandlers() {
+        newStudentButton.setOnAction(e -> newStudentAction());
+        searchTextField.setOnKeyPressed(e -> showData());
+    }
+
+    private void newStudentAction() {
+        StudentForm studentForm = new StudentForm();
+        studentForm.display();
     }
 
     private static void editAction(Student student) {
@@ -316,17 +308,16 @@ public class ConnectUI {
 
             if (searchTextField.getText() == null || searchTextField.getText().isEmpty()){
                 fillTable(studentService.read());
-                confirmationAlert.setContentText(String.valueOf(studentService.read()));
 
             }
             else {
                 fillTable(studentService.read(searchTextField.getText()));         // Read by reference
-                confirmationAlert.setContentText(String.valueOf(studentService.read(searchTextField.getText())));
             }
         } catch (StudentServiceException e) {
             confirmationAlert.setContentText(e.getMessage());
+            confirmationAlert.show();
         }
-        confirmationAlert.show();
+
 
     }
 
