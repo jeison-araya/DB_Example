@@ -1,5 +1,9 @@
 package com.jeison.araya.examples.db.example.ui;
 
+import com.jeison.araya.examples.db.example.domain.Student;
+import com.jeison.araya.examples.db.example.logic.StudentService;
+import com.jeison.araya.examples.db.example.logic.StudentServiceException;
+import com.jeison.araya.examples.db.example.logic.StudentServiceImplementation;
 import com.jeison.araya.examples.db.example.util.BuilderFX;
 import com.jeison.araya.examples.db.example.util.ConnectionDB;
 import javafx.application.Platform;
@@ -31,8 +35,10 @@ public class ConnectUI {
     private static Alert confirmationAlert;
     private static Stage stage;
     private static Connection connection;
+    private static StudentService<Student, String> studentService;
     // Constructor \\
     private ConnectUI(Stage stage) {
+        studentService = StudentServiceImplementation.getInstance();
         connectionDB = new ConnectionDB();
         this.stage = stage;
         // UI
@@ -100,28 +106,10 @@ public class ConnectUI {
     }
 
     private void showData() {
-        if(connection!=null){
-            PreparedStatement preparedStatement;
-            ResultSet resultSet;
-            try{
-                // Prepare statement...
-                preparedStatement = connection.prepareStatement("select nombre from producto");
-                // Execute statement...
-                resultSet = preparedStatement.executeQuery();
-                String values = "";
-                while(resultSet.next()){
-                    values += "Nombre: \t" + resultSet.getString("nombre") +"\n";
-//                    values += "Nombre: \t" + resultSet.getString("nombre") +"\t\t"
-//                            + "Precio: \t" + resultSet.getString("precio") + "\n";
-                }
-                System.out.println(values);
-                confirmationAlert.setContentText(values);
-            }catch (Exception e){
-                // Show error
-                confirmationAlert.setContentText(e.getMessage());
-            }
-            confirmationAlert.show();
-
+        try {
+            studentService.read();
+        } catch (StudentServiceException e) {
+            confirmationAlert.setContentText(e.getMessage());
         }
     }
 

@@ -1,9 +1,7 @@
 package com.jeison.araya.examples.db.example.util;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * @author Jeison Araya Mena | B90514
@@ -20,7 +18,9 @@ public class ConnectionDB {
      * @return {@code Connection} connection with DB, {@code null} error.
      * @throws SQLException when an error happened during DB connection.
      */
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
+
+
 }
