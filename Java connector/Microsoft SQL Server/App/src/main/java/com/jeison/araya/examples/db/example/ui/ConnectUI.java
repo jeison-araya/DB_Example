@@ -5,6 +5,7 @@ import com.jeison.araya.examples.db.example.logic.StudentService;
 import com.jeison.araya.examples.db.example.logic.StudentServiceException;
 import com.jeison.araya.examples.db.example.logic.StudentServiceImplementation;
 import com.jeison.araya.examples.db.example.util.BuilderFX;
+import com.jeison.araya.examples.db.example.util.ThreadPool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -63,6 +64,7 @@ public class ConnectUI {
         }
         scene = BuildScene(pane);
         setupStyles();
+        autoRefresh();
     }
 
     private Scene BuildScene(GridPane pane) {
@@ -227,7 +229,7 @@ public class ConnectUI {
      *
      * @param students list of students.
      */
-    private void fillTable(List<Student> students) {
+    private static void fillTable(List<Student> students) {
         try {
             ObservableList<Student> list = FXCollections.observableList(students);
             tableView.getItems().setAll(list);
@@ -280,8 +282,9 @@ public class ConnectUI {
     private void removeAction(Student data) {
         try {
             studentService.delete(data);
+            refresh();
         } catch (StudentServiceException e) {
-            e.printStackTrace();// TOOD
+            e.printStackTrace();
         }
     }
 
@@ -298,14 +301,14 @@ public class ConnectUI {
     private static void editAction(Student student) {
         try {
             studentService.update(student);
+            refresh();
         } catch (StudentServiceException e) {
             e.printStackTrace();
         }
     }
 
-    private void showData() {
+    private static void showData() {
         try {
-
             if (searchTextField.getText() == null || searchTextField.getText().isEmpty()){
                 fillTable(studentService.read());
 
@@ -322,6 +325,22 @@ public class ConnectUI {
     }
 
 
+    public static void refresh(){
+        showData();
+        searchTextField.clear();
+    }
+
+    private void autoRefresh(){
+        ThreadPool.getPool().submit(() -> {
+            while(true) {
+                System.out.println("Actualizando lista...");
+                showData();
+                // Update each second
+                Thread.sleep(1000);
+
+            }
+        });
+    }
     public Scene getScene() {
         return scene;
     }

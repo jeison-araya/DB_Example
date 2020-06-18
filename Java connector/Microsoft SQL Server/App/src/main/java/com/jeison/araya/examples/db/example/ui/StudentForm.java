@@ -6,6 +6,7 @@ import com.jeison.araya.examples.db.example.logic.StudentServiceException;
 import com.jeison.araya.examples.db.example.logic.StudentServiceImplementation;
 import com.jeison.araya.examples.db.example.util.BuilderFX;
 import com.jeison.araya.examples.db.example.util.StudentBuilder;
+import com.jeison.araya.examples.db.example.util.ThreadPool;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -145,10 +146,13 @@ public class StudentForm {
             try {
                 studentService.create(student);
                 stage.close();
+                ConnectUI.refresh();
             } catch (StudentServiceException e) {
                 System.out.println("Error");
             }
         }
     }
+
+
 
 }
