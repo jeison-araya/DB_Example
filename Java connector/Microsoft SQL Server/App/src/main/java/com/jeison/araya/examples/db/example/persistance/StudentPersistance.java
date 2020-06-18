@@ -1,17 +1,20 @@
 package com.jeison.araya.examples.db.example.persistance;
 
+import com.jeison.araya.examples.db.example.domain.Student;
 import com.jeison.araya.examples.db.example.util.ConnectionDB;
+import com.jeison.araya.examples.db.example.util.StudentBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This implementation is connected to a Data Base.
  */
-public class StudentPersistance<S, K> implements Persistance<S, K> {
+public class StudentPersistance implements Persistance<Student, String> {
     private static Connection connection;
 
 
@@ -29,50 +32,131 @@ public class StudentPersistance<S, K> implements Persistance<S, K> {
             if (connection == null)
                 throw new PersistanceException("Error de conexión");
             System.out.println("Conexión activa...");
-        } catch (SQLException throwables) {
-            System.out.println(throwables.getMessage());
-            throw new PersistanceException(throwables.getMessage());
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new PersistanceException(ex.getMessage());
         }
     }
 
     @Override
-    public void create(S student) throws PersistanceException {
-        throw new UnsupportedOperationException("Not finished");
-    }
-
-    @Override
-    public S read(K key) throws PersistanceException {
-        throw new UnsupportedOperationException("Not finished");
-    }
-
-    @Override
-    public List<S> read() throws PersistanceException {
-        ResultSet resultSet;
-        // Execute statement...
-
-        String values = "";
+    public void create(Student student) throws PersistanceException {
+        if (connection == null)
+            throw new PersistanceException("Error con la conexión");
         try {
-            resultSet = execute("select * from participantes");
-            while (resultSet.next()) {
-                values += "Nombre: \t" + resultSet.getString("nombre") + "\t\t"
-                        + "Apellido: \t" + resultSet.getString("apellido") + "\t\t"
-                        + "Carné: \t" + resultSet.getString("carne") + "\n";
-            }
-            System.out.println(values);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            PreparedStatement statement =
+                    connection.prepareStatement("insert into students (institutionalId, name, phone) values (?,?,?)");
+            statement.setString(1, student.getInstitutionalId());
+            statement.setString(2, student.getName());
+            statement.setString(3, student.getPhone());
+            statement.executeUpdate();
+            System.out.println("Statement excecuted: " + "insert into students (institutionalId, name, phone) values ("
+                    + student.getInstitutionalId() +", "
+                    + student.getName() + ", "
+                    + student.getPhone() +")");
+        } catch (SQLException ex) {
+            throw new PersistanceException(ex.getMessage());
         }
-        return null;
+
+
     }
 
     @Override
-    public void update(S student) throws PersistanceException {
-        throw new UnsupportedOperationException("Not finished");
+    public List<Student> read(String key) throws PersistanceException {
+        List<Student> list = new ArrayList<>();
+        ResultSet resultSet;
+        try {
+            PreparedStatement statement = connection.prepareStatement("select * from students where "
+                    + "institutionalId like ? or "
+                    + "name like ? or "
+                    + "phone like ?"
+            );
+            statement.setString(1, '%'+key+'%');
+            statement.setString(2, '%'+key+'%');
+            statement.setString(3, '%'+key+'%');
+            resultSet = statement.executeQuery();
+            // Read all rows
+            while (resultSet.next()) {
+                // Create an Student
+                Student student = new StudentBuilder()
+                        .setId(resultSet.getInt("id"))
+                        .setInstitutionalId(resultSet.getString("institutionalId"))
+                        .setName(resultSet.getString("name") )
+                        .setPhone(resultSet.getString("phone"))
+                        .build();
+                // Add the student to the list.
+                list.add(student);
+            }
+        } catch (SQLException ex) {
+            throw new PersistanceException(ex.getMessage());
+        }
+        return list;
+
     }
 
     @Override
-    public void delete(S student) throws PersistanceException {
-        throw new UnsupportedOperationException("Not finished");
+    public List<Student> read() throws PersistanceException {
+        List<Student> list = new ArrayList<>();
+        ResultSet resultSet;
+        try {
+            resultSet = execute("select * from students");
+
+            // Read all rows
+            while (resultSet.next()) {
+                // Create an Student
+                Student student = new StudentBuilder()
+                        .setId(resultSet.getInt("id"))
+                        .setInstitutionalId(resultSet.getString("institutionalId"))
+                        .setName(resultSet.getString("name") )
+                        .setPhone(resultSet.getString("phone"))
+                        .build();
+                // Add the student to the list.
+                list.add(student);
+            }
+        } catch (SQLException ex) {
+            throw new PersistanceException(ex.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public void update(Student student) throws PersistanceException {
+        if (connection == null)
+            throw new PersistanceException("Error con la conexión");
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("update students set institutionalId=?, name=?, phone=? where id=?");
+            statement.setString(1, student.getInstitutionalId());
+            statement.setString(2, student.getName());
+            statement.setString(3, student.getPhone());
+            statement.setInt(4, student.getId());
+            statement.executeUpdate();
+            System.out.println("Statement excecuted: " + "update students set institutionalId = "
+                    + student.getInstitutionalId() +", name= "
+                    + student.getName() + ", phone= "
+                    + student.getPhone() + "where id="
+                    + student.getId() +")");
+        } catch (SQLException ex) {
+            throw new PersistanceException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(Student student) throws PersistanceException {
+        if (connection == null)
+            throw new PersistanceException("Error con la conexión");
+        try {
+            // Prepare statement
+            PreparedStatement statement =
+                    connection.prepareStatement("delete from students where id=?");
+            statement.setInt(1, student.getId());
+            // Execution
+            statement.executeUpdate();
+            // Log
+            System.out.println("delete from students where id= "
+                    + student.getId() +")");
+        } catch (SQLException ex) {
+            throw new PersistanceException(ex.getMessage());
+        }
     }
 
 

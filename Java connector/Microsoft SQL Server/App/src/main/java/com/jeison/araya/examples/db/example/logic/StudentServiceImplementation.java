@@ -21,7 +21,7 @@ public class StudentServiceImplementation implements StudentService<Student, Str
 
     // Constructor \\
     private StudentServiceImplementation() {
-        persistance = new StudentPersistance<>();
+        persistance = new StudentPersistance();
 
     }
 
@@ -52,7 +52,7 @@ public class StudentServiceImplementation implements StudentService<Student, Str
     }
 
     @Override
-    public Student read(String key) throws StudentServiceException {
+    public List<Student> read(String key) throws StudentServiceException {
         try {
             return persistance.read(key);
         } catch (PersistanceException e) {
