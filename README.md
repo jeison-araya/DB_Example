@@ -9,16 +9,16 @@
 > ## Lengujes de consulta para bases de datos
 > - Definición
 
-> ## Como utilizar MySQL 
-> - ¿Qué es MySQL?
+> ## ¿Cómo utilizar Microsoft SQL Server Management Studio? 
+> - ¿Qué es SQL Server?
 > - Establecer conexión con una Base de datos.
 > - Acceder a la Base de datos.
 > - Comandos básicos.
 
 > ## ¿Qué es un CRUD?
 > - Definición.
-> - Ejemplos prácticos de un CRUD desde MySQL.
+> - Ejemplos prácticos de un CRUD desde Microsoft SQL Server Management Studio.
 
 > ## Conexión entre Java y una Base de datos
-> - Establecer conexión con la Base de datos.
+> - Establecer conexión con la Base de datos desde Java.
 > - Ejemplo de CRUD desde UI.
