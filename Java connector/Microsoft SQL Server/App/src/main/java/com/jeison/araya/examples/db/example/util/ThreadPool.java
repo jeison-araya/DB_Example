@@ -22,6 +22,15 @@ public class ThreadPool {
         return scheduledExecutorService;
     }
 
+    public static void pause(boolean state){
+        try {
+            while(state) {
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     public static void pause() {
         try {
             Thread.sleep(1000);

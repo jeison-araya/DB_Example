@@ -24,7 +24,11 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import javax.xml.catalog.CatalogFeatures;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static com.jeison.araya.examples.db.example.util.BuilderFX.setButtonEffect;
 import static com.jeison.araya.examples.db.example.util.UIConstants.*;
@@ -48,9 +52,10 @@ public class ConnectUI {
     private static Scene scene;
     private static Alert confirmationAlert;
     private static Stage stage;
-
+    private static boolean autoRefresh;
     // Constructor \\
     private ConnectUI(Stage stage) {
+        autoRefresh = true;
         studentService = StudentServiceImplementation.getInstance();
         this.stage = stage;
         // UI
@@ -192,6 +197,7 @@ public class ConnectUI {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         //Button
         setButtonEffect(newStudentButton);
+        GridPane.setHalignment(newStudentButton, HPos.LEFT);
     }
     /**
      * Modify the values of this row.
@@ -201,6 +207,7 @@ public class ConnectUI {
     private void setEditableColumnTextField(TableColumn tableColumn) {
         // Variables \\
         tableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        tableColumn.setOnEditStart(e -> stopRefresh()); // Stops refreshing
         tableColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent>() {
             @Override
             public void handle(TableColumn.CellEditEvent event) {
@@ -220,8 +227,10 @@ public class ConnectUI {
                         break;
                 }
                 editAction(student);// Guardar
+                continueRefresh();
             }
         });
+        tableColumn.setOnEditCancel(e -> continueRefresh());
     }
 
     /**
@@ -282,9 +291,8 @@ public class ConnectUI {
     private void removeAction(Student data) {
         try {
             studentService.delete(data);
-            refresh();
         } catch (StudentServiceException e) {
-            e.printStackTrace();
+            e.printStackTrace();// TOOD
         }
     }
 
@@ -301,7 +309,6 @@ public class ConnectUI {
     private static void editAction(Student student) {
         try {
             studentService.update(student);
-            refresh();
         } catch (StudentServiceException e) {
             e.printStackTrace();
         }
@@ -309,6 +316,7 @@ public class ConnectUI {
 
     private static void showData() {
         try {
+
             if (searchTextField.getText() == null || searchTextField.getText().isEmpty()){
                 fillTable(studentService.read());
 
@@ -324,7 +332,6 @@ public class ConnectUI {
 
     }
 
-
     public static void refresh(){
         showData();
         searchTextField.clear();
@@ -333,13 +340,22 @@ public class ConnectUI {
     private void autoRefresh(){
         ThreadPool.getPool().submit(() -> {
             while(true) {
-                System.out.println("Actualizando lista...");
-                showData();
-                // Update each second
+                if(autoRefresh) {
+                    System.out.println("Actualizando lista...");
+                    showData();
+                    // Update each second
+                }
                 Thread.sleep(1000);
-
             }
         });
+    }
+
+    private void continueRefresh(){
+        autoRefresh = true;
+    }
+    private void stopRefresh(){
+        autoRefresh = false;
+
     }
     public Scene getScene() {
         return scene;
