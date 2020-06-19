@@ -3,7 +3,7 @@
 
 > # Base de Datos [BD] CRUD
 > ---
-> Primero que nada, ¿Qué es CRUD?
+> ##¿Qué es CRUD?
 > En informática, CRUD es el acrónimo de "Crear, Leer, Actualizar y Borrar", que se usa para referirse a las funciones básicas en bases de datos o la capa de persistencia en un > software.
 >---
 > ## Crear bases de datos.
