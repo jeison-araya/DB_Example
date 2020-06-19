@@ -9,22 +9,23 @@
  # Base de Datos 
 >
 > ## Crear Base de Datos.
->``` sql
+> ``` sql
 >       CREATE DATABASE 2020_IF-3100_B00000
->```
+> ```
 > ## Seleccionar BD.
 >       -- Seleccionar la base de datos a trabajar
 >       USE 2020_IF-3100_B00000
 >    
 > ## Eliminar BD
-``` sql
+> ``` sql
 >       -- Eliminar DB
 >       DROP DATABASE 2020_IF-3100_B00000
+> ```
 >
-```
  # TABLAS
 > 
 > ## Crear tabla
+> ``` sql
 >        CREATE TABLE courses (
 >               course_id VARCHAR(06) PRIMARY KEY, 
 >               name VARCHAR(70)
@@ -36,9 +37,10 @@
 >		        phone VARCHAR(20), 
 >		        course_id VARCHAR(06) REFERENCES courses(course_id)
 >	            )
+> ```
 >
 > ## Mostrar tabla
->
+> ``` sql
 >       -- Mostrar una columna de una tabla.
 >       SELECT name FROM students
 >    
@@ -68,21 +70,27 @@
 >           FROM students s, courses c
 >           WHERE s.course_id = c.course_id
 >           AND c.name = 'Algoritmos y Estructuras de Datos'
+> ```
 > 
 > ## Modificar tabla
+> ``` sql
 >       ALTER TABLE students ALTER COLUMN institutionalId VARCHAR(20)
 >       ALTER TABLE students ALTER COLUMN institutionalId VARCHAR(06)
+> ```
 >
 > ## Eliminar tabla
+> ``` sql
 >       -- Eliminar la tabla "courses".
 >       DROP TABLE courses
 >        
 >       -- Eliminar la tabla "students".
 >       DROP TABLE students
+> ```
 >  
  # REGISTRO
 > 
 > ## Insertar registro
+> ``` sql
 >       -- Insertar un registro a la tabla "students" en la columna específica "name".
 >       INSERT INTO students (name) VALUES ('Juan Rafael Mora')
 >
@@ -100,18 +108,22 @@
 >           ('IF3001', 'Algoritmos y Estructuras de Datos'),
 >           ('IF3000', 'Programación II'),
 >           ('MA0321', 'Cálculo Diferencial e Integral')
->
+> ```
 >
 > ## Modificar registro
+> ``` sql
 >       -- Modificar el "nombre" de un registo mediante el "institutionalID" en la tabla "students".
 >       UPDATE students SET name = 'Juana Pereira' WHERE institutionalId = 'B90127'
 >
 >       -- Modificar el varios registros en la tabla "students".
 >       UPDATE students SET name = 'Juana Pereira Remix', phone = '1111-1111' WHERE institutionalId = 'B90127'
+> ```
 >
 > ## Eliminar registro
+> ``` sql
 >       -- Eliminar un registro
 >       DELETE FROM students WHERE institutionalId = 'B90127'
+> ```
 >    
 ## Nota
 > El 'WHERE' es muy importante, ya que si no se especifica, elimina todos los registros en la tabla.
