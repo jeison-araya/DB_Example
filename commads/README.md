@@ -98,14 +98,20 @@
 >       -- Insertar varios registros en la tabla "studentsU".
 >       INSERT INTO studentsU (institutionalId, name, phone, course_id) VALUES
 >           ('B90127', 'Juana Pereira' ,'8888-8888', 'IF3001'),
+>           ('B92995', 'Daniel Salas', '8888-8888', 'IF3100'),
 >           ('B89111', 'Juan Santamaría', '8888-8888', 'IF3100'),
 >           ('B90456', 'William Walker' ,'8888-8888', 'IF3100'),
->           ('B90888', 'Juan Pereira' ,'8888-8888', 'IF1400'),
+>           ('B90844', 'Juan Pereira' ,'8888-8888', 'IF1400'),
 >           ('B89988', 'Francisca Carrasco', '8888-8888', 'IF3001'),
->           ('B89141', 'Franklin Chang', '8888-8888', 'IF3001')
+>           ('B89141', 'Franklin Chang', '8888-8888', 'IF3001'),
+>           ('B55643', 'Keylor Navas', '8888-8888', 'IF3001'),
+>           ('B13345', 'Chunche Montero', '8888-8888', 'IF3001'),
+>           ('B56424', 'El Moradito', '8888-8888', 'IF3100'),
+>           ('B89167', 'La Cegua', '8888-8888', 'IF3100')
 >
 >       -- Insertar varios registros en la tabla "courses".
 >       INSERT INTO courses (course_id, name) VALUES 
+>           ('IF3100', 'Introducción a los Sistemas de la Información'),
 >           ('IF3001', 'Algoritmos y Estructuras de Datos'),
 >           ('IF3000', 'Programación II'),
 >           ('MA0321', 'Cálculo Diferencial e Integral')
