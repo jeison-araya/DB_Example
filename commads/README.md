@@ -14,7 +14,7 @@
 > ```
 > ## Seleccionar Base de Datos.
 > ``` sql
->       # Seleccionar la base de datos a trabajar
+>       /* Seleccionar la base de datos a trabajar */
 >       USE 2020_IF-3100_B00000
 > ```
 >    
