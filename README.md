@@ -24,10 +24,10 @@
 > - Establecer conexión con SQL Server. 
 > - Crear una Base de datos.
 > - Acceder a la Base de datos.
-> - Comandos básicos.
 
 > ## ¿Qué es un CRUD?
 > - Definición.
+> - Comandos básicos.
 > - Ejemplos prácticos de un CRUD desde Microsoft SQL Server Management Studio.
 
 > ## Conexión entre Java y una Base de datos
