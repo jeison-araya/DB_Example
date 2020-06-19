@@ -9,6 +9,7 @@
  # Base de Datos 
 >
 > ## Crear Base de Datos.
+> ``sql
 >       CREATE DATABASE 2020_IF-3100_B00000;
 >
 > ## Seleccionar BD.
