@@ -5,80 +5,102 @@
 > ---
 > ## Crear bases de datos.
 >       # Crear bases de datos.
->       create database tienda;
+>       CREATE DATABASE 2020_IF-3100_B00000;
 >
 > ## Seleccionar BD.
 >       # Seleccionar la base de datos a trabajar
->       use tienda;
+>       USE 2020_IF-3100_B00000
 >    
 > ## Eliminar BD
 >       # Eliminar DB
->       drop database tienda;
+>       DROP DATABASE 2020_IF-3100_B00000
 
 > # Tablas
 > ---
-> ## Agregar tabla 
->       # Creando una tabla para la BD seleccionada.
->        create table producto(
->            IdProducto int auto_increment primary key,
->            nombre varchar(50) not null,
->            precio decimal(10, 2) not null,
->            fechaVenta date default '0000-00-00'0
->        );
+> ## Crear tabla
+>        CREATE TABLE courses (
+>               course_id VARCHAR(06) PRIMARY KEY, 
+>               name VARCHAR(70)
+>               )
+>                
+>        CREATE TABLE students (
+>		        id int PRIMARY KEY NOT NULL IDENTITY, 
+>		        institutionalId VARCHAR(06), name VARCHAR(30), 
+>		        phone VARCHAR(20), 
+>		        course_id VARCHAR(06) REFERENCES courses(course_id)
+>	            )
 > ---   
-> ## Mostrar una tabla
->       # Mostrar  tabla
->       show columns from producto;
+> ## Mostrar tabla
+>
+>       # Mostrar una columna de una tabla.
+>       SELECT name FROM students
+>    
+>       # Mostrar varias columnas de una tabla.
+>       SELECT name, institutionalId FROM students
+>    
+>       # Mostrar columna con un encabezado temporal.
+>       SELECT name AS 'Nombre del estudiante' FROM students
+>    
+>       # Mostrar registros de forma ordenada. [Ordenar por identificador institucional ascendentemente]
+>       SELECT * FROM students ORDER BY institutionalId ASC
+>
+>       # Mostrar registros de forma ordenada. [Ordenar por identificador institucional descendentemente]
+>       SELECT * FROM students ORDER BY institutionalId ASC
+>
+>       # Mostrar todas las columas de la tabla "courses".
+>       SELECT * FROM students WHERE institutionalId LIKE '%B91'
+>
+>       # Mostrar todas las columas de la tabla "courses".
+>       SELECT * FROM courses
+>
+>       # Mostrar todas las columas de la tabla "students".
+>       SELECT * FROM students
+> 
+>       # Mostrar varias tablas 
+>       SELECT s.name AS Student, c.name Course 
+>           FROM students s, courses c
+>           WHERE s.course_id = c.course_id
+>           AND c.name = 'Algoritmos y Estructuras de Datos'
 > ---    
 > ## Eliminar tabla
->       # Eliminar tabla
->       drop table producto;
-    
+>       # Eliminar la tabla "courses".
+>       DROP TABLE courses
+>        
+>       # Eliminar la tabla "students".
+>       DROP TABLE students
+>    
 > # Registros
 > ---
 > ## Agregar registro
->       # Agregar un registro a la tabla producto.
->       insert into producto values(null, "Zapatos", 12500, null);
+>       # Agregar un registro a la tabla "students" en la columna específica "name".
+>       INSERT INTO students (name) VALUES ('Juan Rafael Mora')
 >
->       # Agregar un registro a la tabla producto en columnas específicas.
->       insert into producto (nombre, precio) values ("Camisas", 10000);
+>       # Agregar varios registros en la tabla "students".
+>       INSERT INTO students (institutionalId, name, phone, course_id) VALUES
+>           ('B90127', 'Juana Pereira' ,'8888-8888', 'IF3001'),
+>           ('B89111', 'Juan Santamaría', '8888-8888', 'IF3100'),
+>           ('B90456', 'William Walker' ,'8888-8888', 'IF3100'),
+>           ('B90888', 'Juan Pereira' ,'8888-8888', 'IF1400'),
+>           ('B89988', 'Francisca Carrasco', '8888-8888', 'IF3001'),
+>           ('B89141', 'Franklin Chang', '8888-8888', 'IF3001')
 >
->       # Agregar varios registros en la tabala producto a columnas específicas. 
->       insert into producto (nombre, precio) values 
->        ("Pantalones", 16500), ("Trajes", 25000), ("Accesorios", 5000);
+>       # Agregar varios registros en la tabla "courses".
+>       INSERT INTO courses (course_id, name) VALUES 
+>           ('IF3001', 'Algoritmos y Estructuras de Datos'),
+>           ('IF3000', 'Programación II'),
+>           ('MA0321', 'Cálculo Diferencial e Integral')
+>
 > ---
 > ## Modificar registro
->       # Modificar el precio de un registo en la tabla producto.
->       update producto set precio = 11000 where idProducto = 2;
+>       # Modificar el "nombre" de un registo mediante el "institutionalID" en la tabla "students".
+>       UPDATE students SET name = 'Juana Pereira' WHERE institutionalId = 'B90127'
 >
->       # Modificar valores de varias columnas de un registro.
->       update producto set nombre = "Zapatos de vestir", precio = 15000 where idProducto = 1;
+>       # Modificar el varios registros en la tabla "students".
+>       UPDATE students SET name = 'Juana Pereira Remix', phone = '1111-1111' WHERE institutionalId = 'B90127'
 > ---
 > ## Eliminar registro
 >       # Eliminar un registro
->       delete from producto where idProducto =  5;
+>       DELETE FROM students WHERE institutionalId = 'B90127'
 >    
 > #### Nota
-> El 'where' es muy importante, ya que si no se específica, elimina todos los registros en la tabla.
-> ---
-> # Mostrar registros
->       # Mostrar todos los registros de la tabla producto.
->       select * from producto;
->    
->       # Mostrar una columna de una tabla.
->       select nombre from producto;
->    
->       # Mostrar varias columnas de una tabla.
->       select nombre, precio from producto;
->    
->       # Mostrar columna con un encabezado temporal.
->       select precio as 'Precio del producto' from producto;
->    
->       # Mostrar registros específicos agregando un filtro.
->       select * from producto where precio > 15000;
->    
->       # Mostrar registros con precio mínimo y máximo.
->       select min(precio), max(precio) from producto; 
->    
->       # Mostrar registros de forma ordenada. [Ordenar por nombre]
->       select * from producto order by nombre asc;
+> El 'WHERE' es muy importante, ya que si no se especifica, elimina todos los registros en la tabla.
