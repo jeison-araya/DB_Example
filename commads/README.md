@@ -1,4 +1,4 @@
-﻿> # Comandos para MySQL 
+﻿> # Comandos para Microsoft SQL Server Management Studio 
 > El nombre de la base de datos para este ejemplo es '2020_IF-3100_B00000'.
 
 > # Base de Datos [BD] CRUD
