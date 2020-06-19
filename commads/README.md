@@ -31,7 +31,7 @@
 >               name VARCHAR(70)
 >               )
 >                
->        CREATE TABLE students (
+>        CREATE TABLE studentsU (
 >		        id int PRIMARY KEY NOT NULL IDENTITY, 
 >		        institutionalId VARCHAR(06), name VARCHAR(30), 
 >		        phone VARCHAR(20), 
@@ -39,43 +39,43 @@
 >	            )
 > ```
 >
-> ## Mostrar tabla
+> ## Leer tabla
 > ``` sql
->       -- Mostrar una columna de una tabla.
->       SELECT name FROM students
+>       -- Leer columna de una tabla.
+>       SELECT name FROM studentsU
 >    
->       -- Mostrar varias columnas de una tabla.
->       SELECT name, institutionalId FROM students
+>       -- Leer varias columnas de una tabla.
+>       SELECT name, institutionalId FROM studentsU
 >    
->       -- Mostrar columna con un encabezado temporal.
->       SELECT name AS 'Nombre del estudiante' FROM students
+>       -- Leer columna con un encabezado temporal.
+>       SELECT name AS 'Nombre del estudiante' FROM studentsU
 >    
->       -- Mostrar registros de forma ordenada. [Ordenar por identificador institucional ascendentemente]
->       SELECT * FROM students ORDER BY institutionalId ASC
+>       -- Leer registros de forma ordenada. [Ordenar por institutionalId ascendentemente]
+>       SELECT * FROM studentsU ORDER BY institutionalId ASC
 >
->       -- Mostrar registros de forma ordenada. [Ordenar por identificador institucional descendentemente]
->       SELECT * FROM students ORDER BY institutionalId ASC
+>       -- Leer registros de forma ordenada. [Ordenar por institutionalId descendentemente]
+>       SELECT * FROM studentsU ORDER BY institutionalId ASC
 >
->       -- Mostrar todas las columas de la tabla "courses".
->       SELECT * FROM students WHERE institutionalId LIKE '%B91'
+>       -- Leer todas las columas de la tabla "courses".
+>       SELECT * FROM studentsU WHERE institutionalId LIKE '%B91'
 >
->       -- Mostrar todas las columas de la tabla "courses".
+>       -- Leer todas las columas de la tabla "courses".
 >       SELECT * FROM courses
 >
->       -- Mostrar todas las columas de la tabla "students".
->       SELECT * FROM students
+>       -- Leer todas las columas de la tabla "studentsU".
+>       SELECT * FROM studentsU
 > 
->       -- Mostrar varias tablas 
+>       -- Leer varias tablas 
 >       SELECT s.name AS Student, c.name Course 
->           FROM students s, courses c
+>           FROM studentsU s, courses c
 >           WHERE s.course_id = c.course_id
 >           AND c.name = 'Algoritmos y Estructuras de Datos'
 > ```
 > 
-> ## Modificar tabla
+> ## Actualizar tabla
 > ``` sql
->       ALTER TABLE students ALTER COLUMN institutionalId VARCHAR(20)
->       ALTER TABLE students ALTER COLUMN institutionalId VARCHAR(06)
+>       ALTER TABLE studentsU ALTER COLUMN institutionalId VARCHAR(20)
+>       ALTER TABLE studentsU ALTER COLUMN institutionalId VARCHAR(06)
 > ```
 >
 > ## Eliminar tabla
@@ -83,19 +83,19 @@
 >       -- Eliminar la tabla "courses".
 >       DROP TABLE courses
 >        
->       -- Eliminar la tabla "students".
->       DROP TABLE students
+>       -- Eliminar la tabla "studentsU".
+>       DROP TABLE studentsU
 > ```
 >  
  # REGISTRO
 > 
 > ## Insertar registro
 > ``` sql
->       -- Insertar un registro a la tabla "students" en la columna específica "name".
->       INSERT INTO students (name) VALUES ('Juan Rafael Mora')
+>       -- Insertar un registro a la tabla "studentsU" en la columna específica "name".
+>       INSERT INTO studentsU (name) VALUES ('Juan Rafael Mora')
 >
->       -- Insertar varios registros en la tabla "students".
->       INSERT INTO students (institutionalId, name, phone, course_id) VALUES
+>       -- Insertar varios registros en la tabla "studentsU".
+>       INSERT INTO studentsU (institutionalId, name, phone, course_id) VALUES
 >           ('B90127', 'Juana Pereira' ,'8888-8888', 'IF3001'),
 >           ('B89111', 'Juan Santamaría', '8888-8888', 'IF3100'),
 >           ('B90456', 'William Walker' ,'8888-8888', 'IF3100'),
@@ -110,19 +110,19 @@
 >           ('MA0321', 'Cálculo Diferencial e Integral')
 > ```
 >
-> ## Modificar registro
+> ## Actualizar registro
 > ``` sql
->       -- Modificar el "nombre" de un registo mediante el "institutionalID" en la tabla "students".
->       UPDATE students SET name = 'Juana Pereira' WHERE institutionalId = 'B90127'
+>       -- Actualizar el "nombre" de un registo mediante el "institutionalID" en la tabla "studentsU".
+>       UPDATE studentsU SET name = 'Juana Pereira' WHERE institutionalId = 'B90127'
 >
->       -- Modificar el varios registros en la tabla "students".
->       UPDATE students SET name = 'Juana Pereira Remix', phone = '1111-1111' WHERE institutionalId = 'B90127'
+>       -- Actualizar el varios registros en la tabla "studentsU".
+>       UPDATE studentsU SET name = 'Juana Pereira Remix', phone = '1111-1111' WHERE institutionalId = 'B90127'
 > ```
 >
 > ## Eliminar registro
 > ``` sql
 >       -- Eliminar un registro
->       DELETE FROM students WHERE institutionalId = 'B90127'
+>       DELETE FROM studentsU WHERE institutionalId = 'B90127'
 > ```
 >    
 ## Nota
