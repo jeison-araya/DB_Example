@@ -24,21 +24,6 @@
 >
  # TABLAS
 > 
-> ## Crear tabla
-> ``` sql
->        CREATE TABLE courses (
->               course_id VARCHAR(06) PRIMARY KEY, 
->               name VARCHAR(70)
->               )
->        --        
->        CREATE TABLE studentsU (
->		             id int PRIMARY KEY NOT NULL IDENTITY, 
->		             institutionalId VARCHAR(06), name VARCHAR(30), 
->               name VARCHAR(30), 
->		             phone VARCHAR(20), 
->		             course_id VARCHAR(06) REFERENCES courses(course_id)
->	              )
-> ```
 >
 > ## Leer tabla
 > ``` sql
