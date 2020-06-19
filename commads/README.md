@@ -111,5 +111,5 @@
 >       -- Eliminar un registro
 >       DELETE FROM students WHERE institutionalId = 'B90127'
 >    
- #### Nota
+## Nota
 > El 'WHERE' es muy importante, ya que si no se especifica, elimina todos los registros en la tabla.
