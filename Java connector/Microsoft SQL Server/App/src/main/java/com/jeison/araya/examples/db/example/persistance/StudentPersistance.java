@@ -15,9 +15,10 @@ import java.util.List;
  * This implementation is connected to a Data Base.
  */
 public class StudentPersistance implements Persistance<Student, String> {
+    // Variables
     private static Connection connection;
 
-
+    // Constructor \\
     public StudentPersistance() {
         try {
             refreshConnection();
@@ -26,6 +27,10 @@ public class StudentPersistance implements Persistance<Student, String> {
         }
     }
 
+    /**
+     * Refresh the connection with the data base.
+     * @throws PersistanceException when the connection hasn't been established.
+     */
     private void refreshConnection() throws PersistanceException {
         try {
             connection = ConnectionDB.getConnection();
@@ -38,6 +43,14 @@ public class StudentPersistance implements Persistance<Student, String> {
         }
     }
 
+    /**
+     * Insert a new student into the data base.
+     *
+     * Use the command: insert into studentsU (institutionalId, name, phone) values ([institutionalId],[name],[phone])
+     *
+     * @param student to insert.
+     * @throws PersistanceException when the connection failed.
+     */
     @Override
     public void create(Student student) throws PersistanceException {
         if (connection == null)
@@ -60,6 +73,15 @@ public class StudentPersistance implements Persistance<Student, String> {
 
     }
 
+    /**
+     * Read the list of students
+     *
+     * Use the command: select * from studentsU where institutionalId like [key] or name like [key] or phone like [key]
+     *
+     * @param key coincidence to search.
+     * @return {@code List} of student, could be empty if the there's no coincidences found.
+     * @throws PersistanceException when the connection failed.
+     */
     @Override
     public List<Student> read(String key) throws PersistanceException {
         List<Student> list = new ArrayList<>();
@@ -93,6 +115,13 @@ public class StudentPersistance implements Persistance<Student, String> {
 
     }
 
+    /**
+     * Reads all the students of the Data Base
+     *
+     * Use command: select * from studentsU
+     * @return {@code List} of student.
+     * @throws PersistanceException when the connection failed.
+     */
     @Override
     public List<Student> read() throws PersistanceException {
         List<Student> list = new ArrayList<>();
@@ -118,6 +147,14 @@ public class StudentPersistance implements Persistance<Student, String> {
         return list;
     }
 
+    /**
+     * Updates the values of one student using the studentId
+     *
+     * Use the command: update studentsU set institutionalId=[institutionalId], name=[name], phone=[phone] where id=[studentId]
+     *
+     * @param student to update values.
+     * @throws PersistanceException when the connection failed.
+     */
     @Override
     public void update(Student student) throws PersistanceException {
         if (connection == null)
@@ -140,6 +177,16 @@ public class StudentPersistance implements Persistance<Student, String> {
         }
     }
 
+    /**
+     *
+     /**
+     * Deletes one student using the studentId
+     *
+     * Use the command: delete from studentsU where id=[studentId]
+     *
+     * @param student to update values.
+     * @throws PersistanceException when the connection failed.
+     */
     @Override
     public void delete(Student student) throws PersistanceException {
         if (connection == null)
@@ -157,6 +204,16 @@ public class StudentPersistance implements Persistance<Student, String> {
         } catch (SQLException ex) {
             throw new PersistanceException(ex.getMessage());
         }
+    }
+
+    /**
+     * Use to know if the connection is established.
+     *
+     * @return {@code true} connection established, {@code false} error.
+     */
+    @Override
+    public boolean isConnected() {
+        return connection!=null;
     }
 
 

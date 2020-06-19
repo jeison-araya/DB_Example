@@ -38,9 +38,9 @@ public class UIConstants {
     public static final Integer GRID_PANE_MIN_WIDTH = 1000;
     public static final Integer GRID_PANE_MIN_HEIGHT = 900;
     public static final Integer TABLE_VIEW_DEFAULT_MIN_WIDTH = 500;
-    public static final Integer TABLE_VIEW_DEFAULT_MAX_WIDTH = 700;
+    public static final Integer TABLE_VIEW_DEFAULT_MAX_WIDTH = 750;
     public static final Integer TABLE_VIEW_DEFAULT_MIN_HEIGHT = 300;
-    public static final Integer TABLE_VIEW_DEFAULT_MAX_HEIGHT = 400;
+    public static final Integer TABLE_VIEW_DEFAULT_MAX_HEIGHT = 450;
     public static final Insets TITLE_DEFAULT_INSETS = new Insets(10, 10, 10, 10);
     public static final Insets TABLE_VIEW_DEFAULT_INSETS = new Insets(10, 20, 10, 20);
     public static final int RECORDS_COLUMN_MIN = 100;

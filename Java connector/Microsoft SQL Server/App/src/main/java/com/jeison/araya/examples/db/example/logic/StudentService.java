@@ -10,4 +10,5 @@ public interface StudentService<S, K> {
     List<S> read(K k) throws StudentServiceException;
     void update (S student) throws StudentServiceException;
     void delete (S student) throws StudentServiceException;
+    boolean isConnected();
 }

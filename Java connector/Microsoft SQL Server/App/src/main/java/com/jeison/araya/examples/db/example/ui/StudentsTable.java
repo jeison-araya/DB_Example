@@ -6,6 +6,7 @@ import com.jeison.araya.examples.db.example.logic.StudentServiceException;
 import com.jeison.araya.examples.db.example.logic.StudentServiceImplementation;
 import com.jeison.araya.examples.db.example.util.BuilderFX;
 import com.jeison.araya.examples.db.example.util.ThreadPool;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -24,11 +25,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import javax.xml.catalog.CatalogFeatures;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static com.jeison.araya.examples.db.example.util.BuilderFX.setButtonEffect;
 import static com.jeison.araya.examples.db.example.util.UIConstants.*;
@@ -36,9 +33,9 @@ import static com.jeison.araya.examples.db.example.util.UIConstants.*;
 /**
  * @author Jeison Araya Mena | B90514
  */
-public class ConnectUI {
+public class StudentsTable {
     // Variables \\
-    private static ConnectUI instance;
+    private static StudentsTable instance;
     private static StudentService<Student, String> studentService;
     // Components
     private static Button newStudentButton;
@@ -53,8 +50,11 @@ public class ConnectUI {
     private static Alert confirmationAlert;
     private static Stage stage;
     private static boolean autoRefresh;
+    private static ImageView connectionStateImage;
+    private static long REFRESH_RATE = 1000; // millis
+
     // Constructor \\
-    private ConnectUI(Stage stage) {
+    private StudentsTable(Stage stage) {
         autoRefresh = true;
         studentService = StudentServiceImplementation.getInstance();
         this.stage = stage;
@@ -72,18 +72,23 @@ public class ConnectUI {
         autoRefresh();
     }
 
-    private Scene BuildScene(GridPane pane) {
-        Scene scene = new Scene(pane, 700, 600);
-        return scene;
-    }
-
     // Singleton Pattern \\
-    public static ConnectUI getInstance(Stage stage) {
+
+    public static StudentsTable getInstance(Stage stage) {
         if (instance == null)
-            instance = new ConnectUI(stage);
+            instance = new StudentsTable(stage);
         return instance;
     }
     // Methods \\
+    /**
+     *
+     * @param pane to show in the scene.
+     * @return {@code Scene} scene to show.
+     */
+    private Scene BuildScene(GridPane pane) {
+        Scene scene = new Scene(pane, 700, 700);
+        return scene;
+    }
 
     /**
      * Builds the main pane.
@@ -104,9 +109,10 @@ public class ConnectUI {
     private void setupControls(GridPane pane) {
         // Row 0
         BuilderFX.buildLabelTitle("Estudiantes", pane, 0, 0, 1, 1);
+        connectionStateImage = buildImage("error.png", pane, 1, 0);
         // Row 1
         newStudentButton = BuilderFX.buildButton("Nuevo", pane, 0, 1);
-        searchTextField = BuilderFX.buildTextInput2("Mostrar", pane, 1, 1);
+        searchTextField = BuilderFX.buildTextInput2("Buscar", pane, 1, 1);
         // Row 2
         tableView = buildTableView(pane, 0, 2, 2, 1);
         tableView.setEditable(true);
@@ -132,6 +138,13 @@ public class ConnectUI {
         return tableView;
     }
 
+    public static ImageView buildImage(String image, GridPane pane, int column, int row) {
+        ImageView imageView = new ImageView(image);
+        pane.add(imageView, column, row);
+        GridPane.setHalignment(imageView, HPos.RIGHT);
+        return imageView;
+    }
+
     /**
      * Create a column and place it in a display table.
      *
@@ -148,6 +161,7 @@ public class ConnectUI {
         tableView.getColumns().add(tableColumn);
         return tableColumn;
     }
+
     /**
      * Set the styles of the components.
      */
@@ -162,12 +176,12 @@ public class ConnectUI {
         rowConstraints.setValignment(VPos.TOP);
         rowConstraints.setVgrow(Priority.SOMETIMES);
         // Row #1
-        RowConstraints rowConstraints1 = new RowConstraints(40, 40, 60);
+        RowConstraints rowConstraints1 = new RowConstraints(40, 40, 50);
         rowConstraints1.setValignment(VPos.CENTER);
         rowConstraints.setVgrow(Priority.SOMETIMES);
         // Row #2
         RowConstraints rowConstraints2 = new RowConstraints(500, 600, 600);
-        rowConstraints2.setValignment(VPos.CENTER);
+        rowConstraints2.setValignment(VPos.TOP);
         rowConstraints.setVgrow(Priority.ALWAYS);
         // Add Row Constraints
         pane.getRowConstraints().addAll(rowConstraints, rowConstraints1, rowConstraints2);
@@ -198,7 +212,9 @@ public class ConnectUI {
         //Button
         setButtonEffect(newStudentButton);
         GridPane.setHalignment(newStudentButton, HPos.LEFT);
+
     }
+
     /**
      * Modify the values of this row.
      *
@@ -299,6 +315,10 @@ public class ConnectUI {
     private void addHandlers() {
         newStudentButton.setOnAction(e -> newStudentAction());
         searchTextField.setOnKeyPressed(e -> showData());
+        stage.setOnCloseRequest(e-> {
+            killThread();
+            Platform.exit();
+        });
     }
 
     private void newStudentAction() {
@@ -306,6 +326,11 @@ public class ConnectUI {
         studentForm.display();
     }
 
+    /**
+     * Updates the values of the student
+     *
+     * @param student {@code Student} to edit
+     */
     private static void editAction(Student student) {
         try {
             studentService.update(student);
@@ -314,49 +339,72 @@ public class ConnectUI {
         }
     }
 
+    /**
+     * Shows the data of the students into the table.
+     */
     private static void showData() {
         try {
+            if (searchTextField.getText() == null || searchTextField.getText().isEmpty()) {
+                fillTable(studentService.read());                               // Read all
 
-            if (searchTextField.getText() == null || searchTextField.getText().isEmpty()){
-                fillTable(studentService.read());
-
-            }
-            else {
-                fillTable(studentService.read(searchTextField.getText()));         // Read by reference
+            } else {
+                fillTable(studentService.read(searchTextField.getText()));      // Read by reference
             }
         } catch (StudentServiceException e) {
-            confirmationAlert.setContentText(e.getMessage());
+            confirmationAlert.setContentText(e.getMessage());                   // Shows an error.
             confirmationAlert.show();
         }
 
 
     }
 
-    public static void refresh(){
+    private void killThread(){
+        ThreadPool.getPool().shutdownNow();
+    }
+    /**
+     * Cleans the filters in the table.
+     */
+    public static void refresh() {
         showData();
         searchTextField.clear();
     }
 
-    private void autoRefresh(){
+    /**
+     * Refresh the table
+     */
+    private void autoRefresh() {
         ThreadPool.getPool().submit(() -> {
-            while(true) {
-                if(autoRefresh) {
-                    System.out.println("Actualizando lista...");
+            while (true) {
+                if (autoRefresh) {
                     showData();
                     // Update each second
                 }
-                Thread.sleep(1000);
+                Thread.sleep(REFRESH_RATE);
+                if (studentService.isConnected()){
+                    connectionStateImage.setImage(new Image("connected.png"));
+                } else
+                    connectionStateImage.setImage(new Image("error.png"));
             }
         });
     }
-
-    private void continueRefresh(){
+    /**
+     * Continue asking of solicitations of data from Data base.
+     */
+    private void continueRefresh() {
         autoRefresh = true;
     }
-    private void stopRefresh(){
-        autoRefresh = false;
 
+    /**
+     * Stop the solicitation of data from Data base.
+     */
+    private void stopRefresh() {
+        autoRefresh = false;
     }
+
+    /**
+     * Return the scene of this UI
+     * @return {@code Scene} scene.
+     */
     public Scene getScene() {
         return scene;
     }

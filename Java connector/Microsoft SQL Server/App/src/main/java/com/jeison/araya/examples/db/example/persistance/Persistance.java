@@ -12,4 +12,6 @@ public interface Persistance<T, K> {
     void update(T object) throws PersistanceException;
 
     void delete(T object) throws PersistanceException;
+
+    boolean isConnected();
 }

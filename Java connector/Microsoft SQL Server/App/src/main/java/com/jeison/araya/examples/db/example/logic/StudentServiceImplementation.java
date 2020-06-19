@@ -84,4 +84,9 @@ public class StudentServiceImplementation implements StudentService<Student, Str
             throw new StudentServiceException(e.getMessage());
         }
     }
+
+    @Override
+    public boolean isConnected() {
+        return persistance.isConnected();
+    }
 }
