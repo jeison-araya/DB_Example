@@ -1,5 +1,5 @@
 ﻿ # Comandos para Microsoft SQL Server Management Studio 
-> El nombre de la Base de Datos para este ejemplo es '2020_IF-3100_B90127'.
+> El nombre de la Base de Datos para este ejemplo es '2020_IF-3100_TALLER'.
 >
 > 
  #  CRUD
@@ -10,7 +10,7 @@
 >
 > ## Crear Base de Datos.
 > ``` sql
->       CREATE DATABASE 2020_IF-3100_B90127
+>       CREATE DATABASE 2020_IF-3100_TALLER
 > ```
 > ## Seleccionar Base de Datos.
 > ``` sql
