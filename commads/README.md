@@ -17,10 +17,11 @@
 >       USE 2020_IF-3100_B00000
 >    
 > ## Eliminar BD
+``` sql
 >       -- Eliminar DB
 >       DROP DATABASE 2020_IF-3100_B00000
 >
->
+```
  # TABLAS
 > 
 > ## Crear tabla
