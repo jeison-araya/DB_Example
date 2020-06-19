@@ -1,10 +1,10 @@
 ﻿> # Comandos para Microsoft SQL Server Management Studio 
 > El nombre de la base de datos para este ejemplo es '2020_IF-3100_B00000'.
-
+>
 > ---
 > #  CRUD
 > En informática, CRUD es el acrónimo de "Crear, Leer, Actualizar y Borrar", que se usa para referirse a las funciones básicas en bases de datos o la capa de persistencia en un > software.
-
+>
 >---
 > # Base de Datos 
 >
@@ -18,7 +18,7 @@
 > ## Eliminar BD
 >       -- Eliminar DB
 >       DROP DATABASE 2020_IF-3100_B00000
-
+>
 > ---
 > # TABLAS
 > 
