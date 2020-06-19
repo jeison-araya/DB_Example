@@ -96,7 +96,6 @@
 >           ('B92995', 'Daniel Salas', '8888-8888', 'IF3100'),
 >           ('B89111', 'Juan Santamaría', '8888-8888', 'IF3100'),
 >           ('B90456', 'William Walker' ,'8888-8888', 'IF3100'),
->           ('B90844', 'Juan Pereira' ,'8888-8888', 'IF1400'),
 >           ('B89988', 'Francisca Carrasco', '8888-8888', 'IF3001'),
 >           ('B89141', 'Franklin Chang', '8888-8888', 'IF3001'),
 >           ('B55643', 'Keylor Navas', '8888-8888', 'IF3001'),
